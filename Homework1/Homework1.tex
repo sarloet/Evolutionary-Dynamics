@@ -18,6 +18,26 @@
 
 %%%%%%%%%%%%%%%%%%%%% Document Begins %%%%%%%%%%%%%%%%%%%%%
 \begin{document}
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{palatino}
+\usepackage{indentfirst}        
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{left=1in,right=0.75in,top=1in,bottom=1in}
+\setlength{\parskip}{0.5em}     
+\usepackage{setspace}          
+\usepackage{graphicx}           
+\usepackage{subfigure}    
+\usepackage{titlesec}
+\usepackage{amsmath}
+
+\titleformat*{\section}{\large\bfseries}
+\titleformat{\subsection}[runin]{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+%%%%%%%%%%%%%%%%%%%%% Document Begins %%%%%%%%%%%%%%%%%%%%%
+\begin{document}
 
 %%%% title
 \begin{center}
@@ -32,37 +52,30 @@
 
 %%%% Problem 1
 \section*{Problem 1}
-%%% a
-\subsection*{(a)} Determine the equilibrium points $x^\ast$ of the system.
+(Solved in Tutorial)
 
 
-%%% b
-\subsection*{(b)} Which of the equilibrium points $x^\ast$ are stable?
-
-
-
-\newpage
 %%%% Problem 2
 \section*{Problem 2}
 %%% a
-\subsection*{(a)} 
+\subsection*{(a)} Determine the equilibrium points $x^\ast$ of the system.
 
 
 
 
 %%%b
-\subsection*{(b)} 
+\subsection*{(b)} Are the points stable for r = 0.5, r = 1.5, r = 2.5?
 
 
 %%%c
-\subsection*{(c)}
+\subsection*{(c)} Confirm this by numerically iterating the difference equation
 
 %%% d
-\subsection*{(d)}
+\subsection*{(d)} Examine the stability and behaviour for r = 3.5.
 
 %%% e
 \newpage
-\subsection*{(e)}
+\subsection*{(e)} What happens for r = 3.9?
 
 
 
@@ -75,12 +88,12 @@
 
 
 %%%b
-\subsection*{(b)} 
+\subsection*{(b)} Numerically integrate to demonstrate the results above for K = 1.
 
 
 
 %%%c
-\subsection*{(c)}
+\subsection*{(c)} Numerically integrate to demonstrate the results above for K = 1.
 
 
 \end{document}
