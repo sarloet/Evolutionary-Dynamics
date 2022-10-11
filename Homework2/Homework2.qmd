@@ -1,0 +1,49 @@
+---
+title: "Evolutionary Dynamics Homework 2"
+author: "Petter,Tobia,Sarah"
+format: html
+editor: visual
+---
+
+## Exercise 2 c)
+
+Examine the dynamics of the quasispecies equation and confirm the results obtained in (b). Assume that q = 0.6 and f0 = 1.5, and initial condition (0.65, 0.35).
+
+```{r}
+#Packages
+library(deSolve)
+```
+
+
+
+```{r}
+#Set Parameters
+tol<-c(1e-60)
+p<-c(f0=1.5,f1=1,q=0.6,q_g=0.4)
+t<-c(0:300)/25
+
+diff<-function(t,x,p){
+  A<- x[1]*p["f0"]*p["q"]+x[2]*p["f1"]*p["q_g"]-(x[1]*p["f0"]+x[2]*p["f1"])*x[1]
+  B<- x[1]*p["f0"]*p["q_g"]+x[2]*p["f1"]*p["q"]-(x[1]*p["f0"]+x[2]*p["f1"])*x[2]
+  list(c(A,B))
+  
+}
+
+```
+
+
+
+```{r}
+
+cond<- c(a=0.35, b=0.65)
+out<-lsoda(cond,t,diff,p,rtol = 1e-10, atol=tol)
+
+```
+
+
+```{r}
+#Plot
+plot(out[,1],out[,2],xlab="time",type ="l",ylim=c(0,1),col='red',ylab="x")
+lines(out[,1],out[,3],col='blue')
+
+```
