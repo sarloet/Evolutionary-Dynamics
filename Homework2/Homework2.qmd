@@ -47,3 +47,14 @@ plot(out[,1],out[,2],xlab="time",type ="l",ylim=c(0,1),col='red',ylab="x")
 lines(out[,1],out[,3],col='blue')
 
 ```
+Compare Result with analytical solution
+
+```{r}
+W=matrix(c(p["f0"]*p["q"],p["f0"]*p["q_g"],p["f1"]*p["q_g"],p["f1"]*p["q"]),2,2)
+lamb=eigen(W)
+x=lamb$vectors[,1]/sum(lamb$vectors[,1])
+x
+tail(out,1)
+```
+
+The analytical solution to the quasispecies equation hence matches the numerically integrated solution.

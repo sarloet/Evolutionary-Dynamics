@@ -161,6 +161,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Homework2_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Compare Result with analytical solution</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>W<span class="ot">=</span><span class="fu">matrix</span>(<span class="fu">c</span>(p[<span class="st">"f0"</span>]<span class="sc">*</span>p[<span class="st">"q"</span>],p[<span class="st">"f0"</span>]<span class="sc">*</span>p[<span class="st">"q_g"</span>],p[<span class="st">"f1"</span>]<span class="sc">*</span>p[<span class="st">"q_g"</span>],p[<span class="st">"f1"</span>]<span class="sc">*</span>p[<span class="st">"q"</span>]),<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>lamb<span class="ot">=</span><span class="fu">eigen</span>(W)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span>lamb<span class="sc">$</span>vectors[,<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sum</span>(lamb<span class="sc">$</span>vectors[,<span class="dv">1</span>])</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5246951 0.4753049</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(out,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       time         a         b
+[301,]   12 0.5246942 0.4753058</code></pre>
+</div>
+</div>
+<p>The analytical solution to the quasispecies equation hence matches the numerically integrated solution.</p>
 </section>
 
 </main>
