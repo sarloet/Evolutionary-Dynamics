@@ -1,0 +1,143 @@
+---
+title: "Evolutionary Dynamics Homework 3"
+author: "Petter,Tobia,Sarah"
+format:
+  html:
+    self-contained: true
+editor: visual
+---
+
+## Homework 5 Exercise 2 e)
+
+```{r}
+#Set Parameters
+N_values<-c(10,100) 
+traj<-1000 
+gen<-100 
+
+```
+
+```{r}
+#Figure
+par(mfrow=c(1,2))
+
+# Process
+for (N in N_values){
+  
+  #Initial values
+  M<-matrix(0,traj,gen) 
+  A_p<-N[1]/2 
+  M[,1] <- t(rep(A_p/N,traj)) 
+  
+  #Statistics
+  emp_mean<-c(mean(M[,1]))
+  emp_stdv<-c(sd(M[,1]))
+  analyt_stdv<-c(0.5) 
+  approx_stdv<-c(sqrt(0)) 
+  
+  
+  for (t in 2:gen){
+    for (traj in 1:traj){ 
+      p<-M[traj,t-1]
+      A_p<-p*N
+      B_p<-(1-p)*N
+      P_change_A<- choose(N, B_p)*(A_p/N)^{B_p} *((N-A_p)/N)^{N-B_p}+ choose(N, A_p)*(B_p/N)^{A_p} *((N-B_p)/N)^{N-A_p}##???
+      
+      if (runif(1)<P_change){ 
+        if (runif(1)<0.5){
+          A_p<-A_p+1 
+        }else{
+          A_p<-A_p-1}}
+      M[traj,t]<-A_p/N}
+    
+    #Calculate Statistics
+    emp_mean<-append(emp_mean,mean(M[,t]))
+    emp_stdv<-append(emp_stdv,sd(M[,t]))
+    analyt_stdv<-append(analyt_stdv,sqrt(analyt_stdv[1]*(1-(1-2/(N^2))^t)/(2/(N^2))))
+    approx_stdv<-append(approx_stdv,sqrt(analyt_stdv[1]*t))
+  }
+  
+  #Plotting
+  for (traj in 1:50){
+    plot(1:gen,M[traj,], type="s", col="#CCCCCC", lwd=1, ylim = c(0, 1), xlim = c(0, gen),xlab="Generation t", ylab="Frequency", main=paste("N =",toString(N)))
+    par(new=TRUE)}
+  
+  lines(1:gen,emp_mean,ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=4)
+  lines(1:gen,(emp_stdv)+emp_mean, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5)
+  lines(1:gen,-(emp_stdv)+emp_mean, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5)
+  lines(1:gen,(analyt_stdv)/N+0.5, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=2)
+  lines(1:gen,-(analyt_stdv)/N+0.5, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=2)
+  lines(1:gen,(approx_stdv)/N+0.5, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=3)
+  lines(1:gen,-(approx_stdv)/N+0.5, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=3)
+  
+  if (N==N_values[-1]){
+    legend("topright", bty = "n", legend = c('emp. mean','emp. stdv','analyt. stdv','approx. stdv'), lty = c(4,1,2,3), col = 'black')}
+}
+
+```
+
+Moran code
+```{r}
+#Set Parameters
+N_values<-c(10,100) 
+traj<-1000 
+gen<-100 
+
+```
+
+```{r}
+#Figure
+par(mfrow=c(1,2))
+
+# Process
+for (N in N_values){
+  
+  #Initial values
+  M<-matrix(0,traj,gen) 
+  A_p<-N[1]/2 
+  M[,1] <- t(rep(A_p/N,traj)) 
+  
+  #Statistics
+  emp_mean<-c(mean(M[,1]))
+  emp_stdv<-c(sd(M[,1]))
+  analyt_stdv<-c(0.5) 
+  approx_stdv<-c(sqrt(0)) 
+  
+  
+  for (t in 2:gen){
+    for (traj in 1:traj){ 
+      p<-M[traj,t-1]
+      A_p<-p*N
+      P_change<-2*p*(1-p) 
+      if (runif(1)<P_change){ 
+        if (runif(1)<0.5){
+          A_p<-A_p+1 
+        }else{
+          A_p<-A_p-1}}
+      M[traj,t]<-A_p/N}
+    
+    #Calculate Statistics
+    emp_mean<-append(emp_mean,mean(M[,t]))
+    emp_stdv<-append(emp_stdv,sd(M[,t]))
+    analyt_stdv<-append(analyt_stdv,sqrt(analyt_stdv[1]*(1-(1-2/(N^2))^t)/(2/(N^2))))
+    approx_stdv<-append(approx_stdv,sqrt(analyt_stdv[1]*t))
+  }
+  
+  #Plotting
+  for (traj in 1:50){
+    plot(1:gen,M[traj,], type="s", col="#CCCCCC", lwd=1, ylim = c(0, 1), xlim = c(0, gen),xlab="Generation t", ylab="Frequency", main=paste("N =",toString(N)))
+    par(new=TRUE)}
+  
+  lines(1:gen,emp_mean,ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=4)
+  lines(1:gen,(emp_stdv)+emp_mean, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5)
+  lines(1:gen,-(emp_stdv)+emp_mean, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5)
+  lines(1:gen,(analyt_stdv)/N+0.5, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=2)
+  lines(1:gen,-(analyt_stdv)/N+0.5, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=2)
+  lines(1:gen,(approx_stdv)/N+0.5, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=3)
+  lines(1:gen,-(approx_stdv)/N+0.5, ylim = c(0, 1), xlim = c(0, gen), type="s", col="black", lwd=1.5, lty=3)
+  
+  if (N==N_values[-1]){
+    legend("topright", bty = "n", legend = c('emp. mean','emp. stdv','analyt. stdv','approx. stdv'), lty = c(4,1,2,3), col = 'black')}
+}
+
+```
