@@ -9,6 +9,7 @@ editor: visual
 
 ## Homework 5 Exercise 2 e)
 
+
 ```{r}
 #Set Parameters
 N_values<-c(10,100) 
@@ -28,6 +29,7 @@ for (N in N_values){
   M<-matrix(0,traj,gen) 
   A_p<-N[1]/2 
   M[,1] <- t(rep(A_p/N,traj)) 
+  p=0.5
   
   #Statistics
   emp_mean<-c(mean(M[,1]))
@@ -37,23 +39,13 @@ for (N in N_values){
   
   
   for (t in 2:gen){
-    for (traj in 1:traj){ 
-      p<-M[traj,t-1]
-      A_p<-p*N
-      B_p<-(1-p)*N
-      P_change_A<- choose(N, B_p)*(A_p/N)^{B_p} *((N-A_p)/N)^{N-B_p}+ choose(N, A_p)*(B_p/N)^{A_p} *((N-B_p)/N)^{N-A_p}##???
-      
-      if (runif(1)<P_change){ 
-        if (runif(1)<0.5){
-          A_p<-A_p+1 
-        }else{
-          A_p<-A_p-1}}
-      M[traj,t]<-A_p/N}
-    
+      X <- rbinom(traj, 2*N, p)
+      p <- X / (2*N)
+      M[,t]=p
     #Calculate Statistics
     emp_mean<-append(emp_mean,mean(M[,t]))
     emp_stdv<-append(emp_stdv,sd(M[,t]))
-    analyt_stdv<-append(analyt_stdv,sqrt(analyt_stdv[1]*(1-(1-2/(N^2))^t)/(2/(N^2))))
+    analyt_stdv<-append(analyt_stdv,sqrt(analyt_stdv[1]*(N-N*((N-1)/N)^t)))
     approx_stdv<-append(approx_stdv,sqrt(analyt_stdv[1]*t))
   }
   
