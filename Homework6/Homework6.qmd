@@ -1,0 +1,39 @@
+---
+title: "Homework 6"
+author: "Sarah Lötscher"
+date: "31 10 2022"
+format:
+  html:
+    self-contained: true
+---
+
+## Exercise 1.b)
+Simulate a random walk, starting at 0 where at each time step the position is either increased
+by 1 with probability 1/2 or decreased by 1 otherwise. Simulate many walks for N = 10, N = 100
+and N = 1000 steps. Compare the results to (2). Find the relationship between the means and
+variances.
+
+```{r}
+#Parameters
+N_values<-c(10,100,1000)
+sample<-20000
+
+```
+
+```{r}
+#Function
+par(mfrow=c(1,length(N_values)))
+
+for(N in N_values){
+  RW <- N-2*rbinom(sample,N,0.5)
+  dd<-table(RW)/sample/2
+  plot(dd,ylab = "Freq",xlab = "Pos", main=N)
+
+  cat("The mean for walks of N=",N,"is",mean(dd),"\n")
+  cat("The variance for walks of N=",N,"is",var(RW),"\n")
+  
+  
+  
+}
+
+```
