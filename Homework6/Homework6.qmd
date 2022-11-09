@@ -43,7 +43,7 @@ Compare your analytical results for the absorption times τ1,τ0, and τ ̄ with
 long simulation time.
 
 ```{r}
-N<-100 
+N<-100
 traj<-1000
 gen<-1000
 ps<-c(0.5, 1/N)
@@ -53,37 +53,44 @@ ps<-c(0.5, 1/N)
 #Figure
 par(mfrow=c(1,1))
 
-p=1/N
-
-#Initial values
-M<-matrix(0,traj,gen) 
-M[,1] <- t(rep(p,traj))
-
-sum_fixation_time = 0
-num_fixation = 0
-
-sum_extinction_time = 0
-num_extinction = 0
-
-already_absorbed = rep(FALSE, traj)
-
-for (t in 2:gen){
-  X <- rbinom(traj, N, p)
-  p <- X / (N)
-  M[,t]=p
+for (p0 in c(0.5, 1 / N)) {
+  #Initial values
+  M<-matrix(0,traj,gen) 
+  M[,1] <- t(rep(p0,traj))
   
-  newly_fixated <- (X == N) & !already_absorbed
-  num_fixation <- num_fixation + sum(newly_fixated)
-  sum_fixation_time <- sum_fixation_time + t*sum(newly_fixated)
+  sum_fixation_time = 0
+  num_fixation = 0
   
-  newly_extinct <- (X == 0) & !already_absorbed
-  num_extinction <- num_extinction + sum(newly_extinct)
-  sum_extinction_time <- sum_extinction_time + t*sum(newly_extinct)
+  sum_extinction_time = 0
+  num_extinction = 0
   
-  already_absorbed <- already_absorbed | newly_fixated
-  already_absorbed <- already_absorbed | newly_extinct
+  already_absorbed = rep(FALSE, traj)
+  
+  p = p0
+  for (t in 2:gen){
+    X <- rbinom(traj, N, p)
+    p <- X / (N)
+    M[,t]=p
+    
+    newly_fixated <- (X == N) & !already_absorbed
+    num_fixation <- num_fixation + sum(newly_fixated)
+    sum_fixation_time <- sum_fixation_time + t*sum(newly_fixated)
+    
+    newly_extinct <- (X == 0) & !already_absorbed
+    num_extinction <- num_extinction + sum(newly_extinct)
+    sum_extinction_time <- sum_extinction_time + t*sum(newly_extinct)
+    
+    already_absorbed <- already_absorbed | newly_fixated
+    already_absorbed <- already_absorbed | newly_extinct
+  }
+  
+  print("p:")
+  print(p0)
+  print("Expected fixation time:")
+  print(sum_fixation_time / num_fixation)
+  print("Expected extinction time:")
+  print(sum_extinction_time / num_extinction)
+  print("Expected absorbtion time:")
+  print((sum_extinction_time + sum_fixation_time) / (num_extinction + num_fixation))
 }
-
-print(sum_fixation_time / num_fixation)
-print(sum_extinction_time / num_extinction)
 ```
